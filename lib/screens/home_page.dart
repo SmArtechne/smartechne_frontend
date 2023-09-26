@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'detail_page.dart';
+import 'package:go_router/go_router.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,7 +27,7 @@ class _HomeState extends State<Home> {
   Container _tile(BuildContext context, String title, String low, String high,
           int degree, int color) =>
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 5.0),
         child: Column(
           children: [
             Align(
@@ -74,10 +75,27 @@ class _HomeState extends State<Home> {
           CrossAxisAlignment.start, // Aligns children to the left
 
       children: [
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+            color: Color(0xFF3F8AE2),
+            child: Text(
+              '아르테크네',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
         const Padding(
           padding: EdgeInsets.symmetric(
               horizontal: 16.0,
-              vertical: 16.0), // Add horizontal and vertical padding
+              vertical: 32.0), // Add horizontal and vertical padding
           child: Text(
             '건물',
             style: TextStyle(
@@ -235,18 +253,21 @@ class _HomeState extends State<Home> {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: BottomButton(),
-        ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 40.0),
+            child: BottomButton(),
+          ),
+        )
       ],
     );
   }
 
   ElevatedButton BottomButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () => context.go('/detail'),
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(
-            EdgeInsets.symmetric(vertical: 15.0, horizontal: 110.0)),
+            EdgeInsets.symmetric(vertical: 15.0, horizontal: 94.0)),
         backgroundColor: MaterialStateProperty.all<Color>(
             Color(0xB0FF9900)), // 배경색을 노란색으로 설정
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
