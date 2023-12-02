@@ -16,25 +16,13 @@ class AppRouter {
       GoRoute(
         path: '/',
         builder: (context, state) => const Layout(),
+        routes: [
+          GoRoute(
+            path: 'detail',
+            builder: (context, state) => const DetailLayout(),
+          ),
+        ],
       ),
-      GoRoute(
-        path: '/detail',
-        builder: (context, state) => const DetailLayout(),
-      ),
-      // ShellRoute(
-      //   navigatorKey: _shellNavigatorKey,
-      //   builder: (context, state, child) => Layout(
-      //     child: child,
-      //   ),
-      //   routes: [
-      //     GoRoute(
-      //       path: '/detail',
-      //       pageBuilder: (context, state) => NoTransitionPage(
-      //         child: Detail(),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     ],
   );
 

@@ -9,14 +9,23 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
-  Container _tile(BuildContext context, String title, String low, String high,
-          int degree, int color) =>
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 0.0),
+  Widget _tile(BuildContext context, String title, String low, String high,
+          int degree, int color){
+                    String content = title == '온도' ? '$degree도' : '$degree%';
+                    double convertPercent = title == '온도' ? (degree-10).toDouble()/30 : degree.toDouble()/100;
+
+
+
+          // 배경 검은색
+      return Container(
+        
+        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical:8.0),
+        width: MediaQuery.of(context).size.width/2 * 0.7,
+       
         child: Column(
           children: [
             Align(
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.center,
                 child: Text(
                   title,
                   style: TextStyle(
@@ -25,33 +34,26 @@ class _DetailState extends State<Detail> {
                   ),
                   textAlign: TextAlign.left,
                 )),
-            LinearPercentIndicator(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              percent: degree / 100,
-              lineHeight: 23.0,
-              backgroundColor: Color(0xFFE9E9E9),
-              progressColor: Color(color),
-              width: MediaQuery.of(context).size.width - 88, // 또는 원하는 비율로 조정
+              SizedBox(height: 8.0), // 상하 여백 추가
+            CircularPercentIndicator(
+              //부모 가로만큼의 반지름
+              radius: MediaQuery.of(context).size.width/4 * 0.6,
+                animation: true,
+                animationDuration: 1200,
+                lineWidth: 15.0,
+                percent: convertPercent,
+                circularStrokeCap: CircularStrokeCap.round,
+                progressColor: Color(color),
+                center: new Text(
+                  content,
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20.0),
+                ),
             ),
-            SizedBox(height: 8.0), // 상하 여백 추가
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(low,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                    )),
-                Text(high,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                    )),
-              ],
-            )
           ],
         ),
       );
+          }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +69,22 @@ class _DetailState extends State<Detail> {
         Padding(
           padding: EdgeInsets.symmetric(
               horizontal: 16.0,
-              vertical: 16.0), // Add horizontal and vertical padding
+              vertical: 0.0), // Add horizontal and vertical padding
           child: Column(
             children: [
-              _tile(context, '복잡도', '낮음', '높음', 75, 0xFF3F8AE2),
-              _tile(context, '소음', '낮음', '높음', 75, 0xFFC644C9),
-              _tile(context, '온도', '0도', '40도', 75, 0xFFF41A1A),
-              _tile(context, '습도', '건조', '습함', 75, 0xFF3FE263),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround, 
+                children: [
+                  _tile(context, '복잡도', '낮음', '높음', 75, 0xFF3F8AE2),
+                  _tile(context, '소음', '낮음', '높음', 25, 0xFF5252C9),
+              ],),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround, 
+                children: [
+                  _tile(context, '온도', '0도', '40도', 23, 0xFFFF7063),
+                  _tile(context, '습도', '건조', '습함', 65, 0xFF80E253),
+              ],)
+
             ],
           ),
         ),

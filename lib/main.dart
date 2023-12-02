@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     //   home: const Layout(),
     // );
     return MaterialApp.router(
-      title: 'DtoD',
+      title: 'SmartArtechne',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'NotoSansKR'),
       // home: Login(),

@@ -1,4 +1,3 @@
-import 'package:d_to_d/utils/provider/tab_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +17,7 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
 
   @override
   Widget build(BuildContext context) {
-    final tabState = ref.watch(tabStateProvider);
+    // final tabState = ref.watch(tabStateProvider);
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -62,62 +61,62 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
         backgroundColor: Colors.white,
         style: TabStyle.fixed,
         items: [
-          TabItem(
-            icon: tabState == TabPage.home
-                ? Image.asset('assets/icons/home_FILL1.png')
-                : Image.asset('assets/icons/home_FILL0.png'),
-            title: '홈',
-          ),
-          TabItem(
-            icon: tabState == TabPage.developer
-                ? Image.asset('assets/icons/desktop_windows_FILL1.png')
-                : Image.asset('assets/icons/desktop_windows_FILL0.png'),
-            title: '개발자',
-          ),
-          TabItem(
-            icon: Icon(
-              Icons.add_circle_outline,
-              color: Colors.black,
-              size: 40.0,
-            ),
-          ),
-          TabItem(
-            icon: tabState == TabPage.designer
-                ? Image.asset('assets/icons/palette_FILL1.png')
-                : Image.asset('assets/icons/palette_FILL0.png'),
-            title: '디자이너',
-          ),
-          TabItem(
-            icon: tabState == TabPage.setting
-                ? Image.asset('assets/icons/settings_FILL1.png')
-                : Image.asset('assets/icons/settings_FILL0.png'),
-            title: '설정',
-          ),
+          // TabItem(
+          //   icon: tabState == TabPage.home
+          //       ? Image.asset('assets/icons/home_FILL1.png')
+          //       : Image.asset('assets/icons/home_FILL0.png'),
+          //   title: '홈',
+          // ),
+          // TabItem(
+          //   icon: tabState == TabPage.developer
+          //       ? Image.asset('assets/icons/desktop_windows_FILL1.png')
+          //       : Image.asset('assets/icons/desktop_windows_FILL0.png'),
+          //   title: '개발자',
+          // ),
+          // TabItem(
+          //   icon: Icon(
+          //     Icons.add_circle_outline,
+          //     color: Colors.black,
+          //     size: 40.0,
+          //   ),
+          // ),
+          // TabItem(
+          //   icon: tabState == TabPage.designer
+          //       ? Image.asset('assets/icons/palette_FILL1.png')
+          //       : Image.asset('assets/icons/palette_FILL0.png'),
+          //   title: '디자이너',
+          // ),
+          // TabItem(
+          //   icon: tabState == TabPage.setting
+          //       ? Image.asset('assets/icons/settings_FILL1.png')
+          //       : Image.asset('assets/icons/settings_FILL0.png'),
+          //   title: '설정',
+          // ),
         ],
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              ref.read(tabStateProvider.notifier).change(TabPage.home);
-              context.go('/home');
-              break;
-            case 1:
-              ref.read(tabStateProvider.notifier).change(TabPage.developer);
-              context.go('/developer');
-              break;
-            case 2:
-              ref.read(tabStateProvider.notifier).change(TabPage.addPost);
-              context.push('/addpost');
-              break;
-            case 3:
-              ref.read(tabStateProvider.notifier).change(TabPage.designer);
-              context.go('/designer');
-              break;
-            case 4:
-              ref.read(tabStateProvider.notifier).change(TabPage.setting);
-              context.go('/setting');
-              break;
-          }
-        },
+        // onTap: (index) {
+        //   switch (index) {
+        //     case 0:
+        //       ref.read(tabStateProvider.notifier).change(TabPage.home);
+        //       context.go('/home');
+        //       break;
+        //     case 1:
+        //       ref.read(tabStateProvider.notifier).change(TabPage.developer);
+        //       context.go('/developer');
+        //       break;
+        //     case 2:
+        //       ref.read(tabStateProvider.notifier).change(TabPage.addPost);
+        //       context.push('/addpost');
+        //       break;
+        //     case 3:
+        //       ref.read(tabStateProvider.notifier).change(TabPage.designer);
+        //       context.go('/designer');
+        //       break;
+        //     case 4:
+        //       ref.read(tabStateProvider.notifier).change(TabPage.setting);
+        //       context.go('/setting');
+        //       break;
+        //   }
+        // },
       ),
     );
   }

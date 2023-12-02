@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:d_to_d/widgets/home/side_bar.dart';
-import 'package:d_to_d/widgets/home/home_search_bar.dart';
+
 
 class DesktopLayout extends StatelessWidget {
   final Widget? child;
@@ -9,7 +8,7 @@ class DesktopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget content = child ?? HomeBody();
+    // final Widget content = child ?? HomeBody();
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +28,7 @@ class DesktopLayout extends StatelessWidget {
               ),
             ),
             // SearchBar(),
-            HomeSearchBar(),
+            // HomeSearchBar(),
           ],
         ),
         backgroundColor: Colors.white,
@@ -41,19 +40,19 @@ class DesktopLayout extends StatelessWidget {
           )
         ],
       ),
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: SideBar(),
-          ),
-          Expanded(
-            flex: 5,
-            child: content,
-          ),
-        ],
-      ),
+      // body: Row(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      //       // child: SideBar(),
+      //     ),
+      //     Expanded(
+      //       flex: 5,
+      //       // child: content,
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

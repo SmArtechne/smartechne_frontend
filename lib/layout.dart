@@ -8,7 +8,8 @@ class Layout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('아르테크네'),
+        title: Text('SmArtehcne'),
+       
       ),
       body: SingleChildScrollView(
         child: Home(),
