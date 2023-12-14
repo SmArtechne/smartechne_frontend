@@ -9,11 +9,12 @@ class Layout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('SmArtehcne'),
-       
       ),
       body: SingleChildScrollView(
+          child: Container(
+        decoration: BoxDecoration(),
         child: Home(),
-      ),
+      )),
     );
   }
 }

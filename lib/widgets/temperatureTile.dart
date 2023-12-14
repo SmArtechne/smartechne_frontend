@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:smartechne_frontend/custom_icons.dart';
 
 class TemperatureTile extends StatefulWidget {
   final BuildContext context;
@@ -29,6 +30,7 @@ class _TemperatureTileState extends State<TemperatureTile> {
   double size = 0;
   String title = '온도';
   String comment = '18°C : 불편함\n21°C : 적당함\n24°C : 쾌적함\n27°C : 적당함\n30°C : 불편함';
+  IconData iconData = CupertinoIcons.thermometer;
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +48,23 @@ class _TemperatureTileState extends State<TemperatureTile> {
     if (widget.degree < 18) {
       comment = 4;
       expandedTitle = '추움';
+      iconData = CustomIcons.thermometer_quarter;
     } else if (widget.degree >= 18 && widget.degree < 21) {
       comment = 3;
       expandedTitle = '약간 추움';
+      iconData = CustomIcons.thermometer_half;
     } else if (widget.degree >= 21 && widget.degree < 24) {
       comment = 2;
       expandedTitle = '쾌적함';
+      iconData = CustomIcons.thermometer_half;
     } else if (widget.degree >= 24 && widget.degree < 27) {
       comment = 1;
       expandedTitle = '약간 더움';
+      iconData = CustomIcons.thermometer_three_quarters;
     } else if (widget.degree >= 27) {
       comment = 0;
       expandedTitle = '더움';
+      iconData = CustomIcons.thermometer_full;
     }
     if (isExpanded) {
       // isExpanded가 true일 때만 색상을 color 변수의 투명도80으로 하고 싶어
