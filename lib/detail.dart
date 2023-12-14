@@ -9,15 +9,12 @@ class DetailLayout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('SmArtehcne'),
-         leading: IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Detail(),
       ),
     );
   }
