@@ -2,9 +2,6 @@
 
 SmArtechne is developed for Gachon University's autonomous learning space, Artechné Space, using Flutter."
 
-<img width="250" alt="smartechne_fe_demo_home" src="https://github.com/SmArtechne/smartechne_frontend/assets/112641576/011fece9-25dd-4f73-bd64-41d8b984da13.png">
-<img width="250" alt="smartechne_fe_demo_detail" src="https://github.com/SmArtechne/smartechne_frontend/assets/112641576/63022708-9453-42ed-b09a-3cfb4bc7c193.png">
-
 ## Installation
 
 1. **Install Flutter SDK**: Install the Flutter SDK to run the project. Download and install the SDK for your operating system from the [Flutter official website](https://flutter.dev/docs/get-started/install).
@@ -37,3 +34,8 @@ SmArtechne is developed for Gachon University's autonomous learning space, Artec
 3. **Choose a Floor**: Once a building is selected, choose a specific floor from the available options.
 4. **View Detailed Status**: Tap on icons representing "Temperature," "Humidity," "Available Seats," or "Noise" to view detailed status and information.
 5. **Check Real-time Seat Availability**: Click on "실시간 좌석현황" to check the current seat status in real-time.
+
+## Screen
+<img width="250" alt="smartechne_fe_demo_home" src="https://github.com/SmArtechne/smartechne_frontend/assets/112641576/011fece9-25dd-4f73-bd64-41d8b984da13.png">
+<img width="250" alt="smartechne_fe_demo_detail" src="https://github.com/SmArtechne/smartechne_frontend/assets/112641576/63022708-9453-42ed-b09a-3cfb4bc7c193.png">
+
