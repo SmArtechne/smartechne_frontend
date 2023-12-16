@@ -2,7 +2,7 @@
 
 SmArtechne is developed for Gachon University's autonomous learning space, Artechné Space, using Flutter."
 
-<img width="461" alt="smartechne_fe_demo" src="https://github.com/SmArtechne/smartechne_frontend/assets/112641576/011fece9-25dd-4f73-bd64-41d8b984da13.png">
+<img width="300" alt="smartechne_fe_demo" src="https://github.com/SmArtechne/smartechne_frontend/assets/112641576/011fece9-25dd-4f73-bd64-41d8b984da13.png">
 
 ## Installation
 
