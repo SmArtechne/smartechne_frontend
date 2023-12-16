@@ -1,6 +1,8 @@
 # SmArtechne
 
-"Smartechne" is a Flutter app developed for Gachon University's autonomous learning space, Artechné Space. This app provides real-time updates on the temperature, humidity, noise level, and available seating information within the Artechné Space. Users can stay informed about the current conditions in the space, allowing for more efficient utilization of the area.
+"Smartechne" is a Flutter app developed for Gachon University's autonomous learning space, Artechné Space. 
+This app provides real-time updates on the temperature, humidity, noise level, and available seating information within the Artechné Space. 
+Users can stay informed about the current conditions in the space, allowing for more efficient utilization of the area.
 
 ## Installation
 
