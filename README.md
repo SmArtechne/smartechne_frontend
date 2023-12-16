@@ -1,6 +1,6 @@
 # SmArtechne
 
-SmArtechne is developed for Gachon University's autonomous learning space, Artechné Space, using Flutter."
+"Smartechne" is a Flutter app developed for Gachon University's autonomous learning space, Artechné Space. This app provides real-time updates on the temperature, humidity, noise level, and available seating information within the Artechné Space. Users can stay informed about the current conditions in the space, allowing for more efficient utilization of the area.
 
 ## Installation
 
@@ -9,13 +9,13 @@ SmArtechne is developed for Gachon University's autonomous learning space, Artec
 2. **Clone the project**: Clone the project using Git.
 
    ```bash
-   git clone https://github.com/yourusername/yourproject.git
+   git clone https://github.com/SmArtechne/smartechne_frontend.git
    ```
 
 3. **Install dependencies**: Navigate to the project folder and install the necessary dependencies.
 
    ```bash
-   cd yourproject
+   cd smartechne_frontend
    flutter pub get
    ```
 
