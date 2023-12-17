@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:smartechne_frontend/widgets/complecityTile.dart';
+import 'package:smartechne_frontend/widgets/complexityTile.dart';
 import 'package:smartechne_frontend/widgets/humidityTile.dart';
 import 'package:smartechne_frontend/widgets/soundTile.dart';
 import 'package:smartechne_frontend/widgets/temperatureTile.dart';
@@ -13,19 +13,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-Widget loadingIndicator({required BuildContext context}) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(26.5),
-      color: Colors.grey.shade200,
-    ),
-    width: MediaQuery.of(context).size.width / 2 * 0.85,
-    height: MediaQuery.of(context).size.width / 2 * 0.85,
-    child: Center(
-      child: CircularProgressIndicator(), // 로딩 인디케이터 위젯
-    ),
-  );
+class LoadingIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(26.5),
+        color: Colors.grey.shade200,
+      ),
+      width: MediaQuery.of(context).size.width / 2 * 0.85,
+      height: MediaQuery.of(context).size.width / 2 * 0.85,
+      child: Center(
+        child: CircularProgressIndicator(), // 로딩 인디케이터 위젯
+      ),
+    );
+  }
 }
 
 class Home extends StatefulWidget {
@@ -40,7 +43,11 @@ class _HomeState extends State<Home> {
   late Timer _commentTimer;
   bool detail = false;
   ApiResponse? apiResponse;
+
   int totalSeat = 42;
+  int humidityDegree = 40;
+  int temperatureDegree = 20;
+  int soundDegree = 56;
 
   String dropdownValue = 'AI 공학관';
   String responseTime = '';
@@ -84,7 +91,7 @@ class _HomeState extends State<Home> {
 
   Future<void> fetchData() async {
     try {
-      var apiUrl = Uri.parse('http://54.180.0.181:5000/test');
+      var apiUrl = Uri.parse('http://34.64.187.173:5000/test');
       var response = await http.get(apiUrl);
 
       if (response.statusCode == 200) {
@@ -96,6 +103,9 @@ class _HomeState extends State<Home> {
           // 현재 시간을 날짜 시간 형식으로 responseTime 변수에 저장
           responseTime = DateTime.now().toString();
           responseTime = responseTime.substring(10, 19);
+
+          humidityDegree = apiResponse!.humidity;
+          temperatureDegree = apiResponse!.temp;
           print(responseTime + ' ' + apiResponse!.remainSeat.toString());
           print(apiResponse!.result);
 
@@ -133,20 +143,22 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Stack(children: [
-        Visibility(
-          visible: detail == false,
+        Container(
+          height: MediaQuery.of(context).size.height * 0.72,
           child: Column(
             crossAxisAlignment:
                 CrossAxisAlignment.start, // Aligns children to the left
             children: [
-              const Padding(
+              Container(
                 padding: EdgeInsets.symmetric(
                     horizontal: 16.0,
-                    vertical: 16.0), // Add horizontal and vertical padding
+                    vertical: MediaQuery.of(context).size.height /
+                        4 *
+                        0.04), // Add horizontal and vertical padding
                 child: Text(
                   '건물',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
@@ -206,10 +218,11 @@ class _HomeState extends State<Home> {
               ),
               Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: 0.0,
-                      vertical: 12.0), // Add horizontal and vertical padding
+                    horizontal: 0.0,
+                    vertical: MediaQuery.of(context).size.height / 4 * 0.04,
+                  ), // Add horizontal and vertical padding
                   child: SizedBox(
-                      height: 36,
+                      height: MediaQuery.of(context).size.height / 4 * 0.16,
                       child: ListView.separated(
                         scrollDirection: Axis
                             .horizontal, // Set the scroll direction to horizontal
@@ -262,7 +275,9 @@ class _HomeState extends State<Home> {
                                 '${floorMap[dropdownValue]![index]}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: MediaQuery.of(context).size.height /
+                                      4 *
+                                      0.08,
                                   color: pressAttention
                                       ? Colors.white
                                       : Colors.grey.shade600,
@@ -281,15 +296,16 @@ class _HomeState extends State<Home> {
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0), // Add horizontal and vertical padding
+                    horizontal: 16.0,
+                    vertical: MediaQuery.of(context).size.height / 4 * 0.02,
+                  ), // Add horizontal and vertical padding
                   child: Text(
                     dropdownValue +
                         (pressedAttentionIndex >= 0
                             ? ' ${floorMap[dropdownValue]![pressedAttentionIndex]}'
                             : ''), // pressedAttentionIndex가 -1이 아닌 경우에만 추가
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -301,6 +317,9 @@ class _HomeState extends State<Home> {
                 color: Color(0xFFC7C7C7), // Set the color of the divider
                 thickness: 1.5, // Set the thickness of the divider
               ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 4 * 0.02,
+              ), // 상하 여백 추가
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -308,7 +327,9 @@ class _HomeState extends State<Home> {
                       ? Text(
                           "최근 업데이트 " + responseTime,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: MediaQuery.of(context).size.height /
+                                4 *
+                                0.06, // 12% of screen width
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -317,7 +338,9 @@ class _HomeState extends State<Home> {
                       : Text(
                           loadingComment[commentIndex],
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: MediaQuery.of(context).size.height /
+                                4 *
+                                0.06, // 12%
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
                           ),
@@ -336,31 +359,30 @@ class _HomeState extends State<Home> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 0.0,
-                    vertical: 8.0), // Add horizontal and vertical padding
+                padding: EdgeInsets.fromLTRB(
+                    0, 16, 0, 0), // Add horizontal and vertical padding
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         apiResponse == null
-                            ? loadingIndicator(context: context)
+                            ? LoadingIndicator()
                             : TemperatureTile(
                                 context: context,
                                 title: '온도',
                                 low: '0도',
                                 high: '40도',
-                                degree: 24,
-                                color: 0xFFFF7063),
+                                degree: temperatureDegree,
+                                color: Colors.red),
                         apiResponse == null
-                            ? loadingIndicator(context: context)
+                            ? LoadingIndicator()
                             : SoundTile(
                                 context: context,
                                 title: '소음',
                                 low: '낮음',
                                 high: '높음',
-                                degree: 56,
+                                degree: soundDegree,
                                 color: 0xFF5252C9),
                       ],
                     ),
@@ -369,7 +391,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         apiResponse == null
-                            ? loadingIndicator(context: context)
+                            ? LoadingIndicator()
                             : ComplexityTile(
                                 context: context,
                                 title: '남은 좌석',
@@ -379,13 +401,13 @@ class _HomeState extends State<Home> {
                                 total: totalSeat,
                                 color: 0xFF3F8AE2),
                         apiResponse == null
-                            ? loadingIndicator(context: context)
+                            ? LoadingIndicator()
                             : HumidityTile(
                                 context: context,
                                 title: '습도',
                                 low: '건조',
                                 high: '습함',
-                                degree: 40,
+                                degree: humidityDegree,
                                 color: 0xFF80E253),
                       ],
                     ),
@@ -404,6 +426,13 @@ class _HomeState extends State<Home> {
                     ? 42
                     : apiResponse!.remainSeat,
                 totalSeats: totalSeat,
+                space: dropdownValue +
+                    (pressedAttentionIndex >= 0
+                        ? ' ${floorMap[dropdownValue]![pressedAttentionIndex]}'
+                        : ''),
+                soundDegree: soundDegree,
+                temperatureDegree: temperatureDegree,
+                humidityDegree: humidityDegree,
               )
             : SizedBox()
       ]),
@@ -411,7 +440,7 @@ class _HomeState extends State<Home> {
         alignment: Alignment.bottomCenter,
         child: Padding(
           padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 0.0),
-          child: BottomButton(),
+          child: Container(child: BottomButton()),
         ),
       )
     ]);
@@ -421,29 +450,31 @@ class _HomeState extends State<Home> {
     detail = !detail;
   }
 
-  ElevatedButton BottomButton() {
-    return ElevatedButton(
-      onPressed: () => detailOn(),
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all<EdgeInsets>(
-            EdgeInsets.symmetric(vertical: 15.0, horizontal: 94.0)),
-        backgroundColor: MaterialStateProperty.all<Color>(
-            Color(0xB0FF9900)), // 배경색을 노란색으로 설정
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // 테두리를 둥근 테두리로 설정
+  SizedBox BottomButton() {
+    return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: ElevatedButton(
+          onPressed: () => detailOn(),
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all<EdgeInsets>(
+                EdgeInsets.symmetric(vertical: 15.0, horizontal: 0.0)),
+            backgroundColor: MaterialStateProperty.all<Color>(
+                Color(0xB0FF9900)), // 배경색을 노란색으로 설정
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0), // 테두리를 둥근 테두리로 설정
+              ),
+            ),
           ),
-        ),
-      ),
-      child: Text(
-        detail == false ? '실시간 자리현황' : '홈으로',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
+          child: Text(
+            detail == false ? '실시간 자리현황' : '홈으로',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ));
   }
 }

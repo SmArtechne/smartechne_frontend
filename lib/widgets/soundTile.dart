@@ -52,6 +52,10 @@ class _SoundTileState extends State<SoundTile> {
     String comment4 = '80dB : 지하철 차내 소리';
 
     int comment = 0;
+
+    double fontSize = MediaQuery.of(context).size.height / 4 * 0.070;
+    double fontHeight = MediaQuery.of(context).size.height / 4 * 0.0065;
+
     // 소음 수준에 따라 아이콘 변경
     if (widget.degree < 21) {
       expandedTitle = '시계 초침 소리';
@@ -78,12 +82,12 @@ class _SoundTileState extends State<SoundTile> {
 
       containerColor = Colors.grey.shade200;
       iconColor = Colors.grey.shade300;
-      size = MediaQuery.of(widget.context).size.width / 4 * 1.2;
+      size = MediaQuery.of(widget.context).size.height / 4 * 0.5;
       title = expandedTitle;
     } else {
       containerColor = Colors.transparent;
       iconColor = Color(widget.color);
-      size = MediaQuery.of(widget.context).size.width / 4 * 1.2;
+      size = MediaQuery.of(widget.context).size.height / 4 * 0.57;
       title = widget.degree.toString() + 'dB';
     }
 
@@ -96,13 +100,13 @@ class _SoundTileState extends State<SoundTile> {
             });
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(26.5),
               color: containerColor,
             ),
-            width: MediaQuery.of(context).size.width / 2 * 0.85,
-            height: MediaQuery.of(context).size.width / 2 * 0.85,
+            width: MediaQuery.of(context).size.height / 2 * 0.4,
+            height: MediaQuery.of(context).size.height / 2 * 0.4,
             child: Column(
               children: [
                 Align(
@@ -111,7 +115,7 @@ class _SoundTileState extends State<SoundTile> {
                     title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: MediaQuery.of(context).size.width / 4 * 0.18,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -119,10 +123,13 @@ class _SoundTileState extends State<SoundTile> {
                 SizedBox(height: 8.0), // 상하 여백 추가
                 Stack(children: [
                   // 상하 여백 추가
-                  Icon(
-                    iconData,
-                    size: size,
-                    color: iconColor, // 아이콘 색상
+                  Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      iconData,
+                      size: size,
+                      color: iconColor, // 아이콘 색상
+                    ),
                   ),
                   if (isExpanded)
                     Column(
@@ -131,9 +138,9 @@ class _SoundTileState extends State<SoundTile> {
                         Text(
                           comment4,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 4
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -143,9 +150,9 @@ class _SoundTileState extends State<SoundTile> {
                         Text(
                           comment3,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 3
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -155,9 +162,9 @@ class _SoundTileState extends State<SoundTile> {
                         Text(
                           comment2,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 2
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -167,9 +174,9 @@ class _SoundTileState extends State<SoundTile> {
                         Text(
                           comment1,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 1
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -179,9 +186,9 @@ class _SoundTileState extends State<SoundTile> {
                         Text(
                           comment0,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 0
                                 ? Colors.black
                                 : Colors.grey.shade700,

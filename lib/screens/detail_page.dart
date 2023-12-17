@@ -11,6 +11,10 @@ class Detail extends StatefulWidget {
   final bool loading;
   final int remainSeats;
   final int totalSeats;
+  final String space;
+  final int humidityDegree;
+  final int temperatureDegree;
+  final int soundDegree;
 
   Detail({
     required this.context,
@@ -18,6 +22,10 @@ class Detail extends StatefulWidget {
     required this.loading,
     required this.remainSeats,
     required this.totalSeats,
+    required this.space,
+    required this.humidityDegree,
+    required this.temperatureDegree,
+    required this.soundDegree,
   });
 
   @override
@@ -36,12 +44,12 @@ class _DetailState extends State<Detail> {
           ? Icon(
               CustomIcons.event_seat,
               color: able,
-              size: size,
+              size: MediaQuery.of(context).size.height / 4 * 0.12,
             )
           : Icon(
               CustomIcons.event_seat,
               color: disable,
-              size: size,
+              size: MediaQuery.of(context).size.height / 4 * 0.12,
             ),
       SizedBox(
         height: gap,
@@ -52,8 +60,8 @@ class _DetailState extends State<Detail> {
   Widget _desk() {
     return Column(children: [
       Container(
-        height: 70,
-        width: 35,
+        height: MediaQuery.of(context).size.height / 4 * 0.12,
+        width: MediaQuery.of(context).size.height / 4 * 0.12,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0), color: desk),
       ),
@@ -68,9 +76,11 @@ class _DetailState extends State<Detail> {
     rightSeatWidgets.add(SizedBox(height: 15));
 
     for (int i = 6; i >= 0; i--) {
-      leftSeatWidgets.add(_seats(seats[index + i] == 0, 15));
+      leftSeatWidgets.add(_seats(seats[index + i] == 0,
+          MediaQuery.of(context).size.height / 4 * 0.02));
       if (seats[index + i] == 0) {}
-      rightSeatWidgets.add(_seats(seats[index + i + 7] == 0, 15));
+      rightSeatWidgets.add(_seats(seats[index + i + 7] == 0,
+          MediaQuery.of(context).size.height / 4 * 0.02));
     }
     // 배경 검은색
     return Container(
@@ -83,8 +93,8 @@ class _DetailState extends State<Detail> {
         Column(
           children: [
             Container(
-              height: 300,
-              width: 35,
+              height: MediaQuery.of(context).size.height / 4 * 1,
+              width: MediaQuery.of(context).size.height / 4 * 0.12,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0), color: desk),
             ),
@@ -105,7 +115,8 @@ class _DetailState extends State<Detail> {
     sideSeatWidgets.add(SizedBox(height: 15));
 
     for (int i = 9; i >= 0; i--) {
-      sideSeatWidgets.add(_seats(seats[index + i] == 0, 6.5));
+      sideSeatWidgets.add(_seats(seats[index + i] == 0,
+          MediaQuery.of(context).size.height / 4 * 0.01));
     }
 
     for (int i = 0; i < 5; i++) {
@@ -139,7 +150,8 @@ class _DetailState extends State<Detail> {
       padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
       child: Row(children: [
         Column(children: [
-          _seats(seats[index + 1] == 0, 10),
+          _seats(seats[index + 1] == 0,
+              MediaQuery.of(context).size.height / 4 * 0.01),
           _seats(seats[index + 0] == 0, 0),
         ]),
         SizedBox(
@@ -148,17 +160,17 @@ class _DetailState extends State<Detail> {
         Column(
           children: [
             Container(
-              height: 35,
-              width: 35,
+              height: MediaQuery.of(context).size.height / 4 * 0.12,
+              width: MediaQuery.of(context).size.height / 4 * 0.12,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0), color: desk),
             ),
             SizedBox(
-              height: 5,
+              height: MediaQuery.of(context).size.height / 4 * 0.01,
             ),
             Container(
-              height: 35,
-              width: 35,
+              height: MediaQuery.of(context).size.height / 4 * 0.12,
+              width: MediaQuery.of(context).size.height / 4 * 0.12,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0), color: desk),
             ),
@@ -168,7 +180,8 @@ class _DetailState extends State<Detail> {
           width: 5,
         ),
         Column(children: [
-          _seats(seats[index + 9] == 0, 10),
+          _seats(seats[index + 9] == 0,
+              MediaQuery.of(context).size.height / 4 * 0.01),
           _seats(seats[index + 8] == 0, 0),
         ])
       ]),
@@ -181,7 +194,8 @@ class _DetailState extends State<Detail> {
       padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 1.0),
       child: Row(children: [
         Column(children: [
-          _seats(seats[index + 1] == 0, 2),
+          _seats(seats[index + 1] == 0,
+              MediaQuery.of(context).size.height / 4 * 0.0005),
           _seats(seats[index + 0] == 0, 0),
         ]),
         SizedBox(
@@ -190,8 +204,8 @@ class _DetailState extends State<Detail> {
         Column(
           children: [
             Container(
-              height: 60,
-              width: 35,
+              height: MediaQuery.of(context).size.height / 4 * 0.12 * 2,
+              width: MediaQuery.of(context).size.height / 4 * 0.12,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0), color: desk),
             ),
@@ -204,143 +218,258 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        decoration: BoxDecoration(),
-        child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Aligns children to the left
+        height: MediaQuery.of(context).size.height * 0.72,
+        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+        decoration: BoxDecoration(
+          color: Color(0xFFFAFAFA),
+        ),
+        child: Stack(children: [
+          Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Aligns children to the left
 
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 16.0), // Add horizontal and vertical padding
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(),
+                padding: EdgeInsets.fromLTRB(
+                    0, MediaQuery.of(context).size.height / 4 * 0.04, 0, 0),
+                child: Column(children: [
+                  Text(
+                    widget.space,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.height / 4 * 0.1,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(
+                      CustomIcons.thermometer_half,
+                      color: Colors.red,
+                      size: MediaQuery.of(context).size.height / 4 * 0.1,
+                    ),
+                    Text(
+                      widget.temperatureDegree.toString() + '°C',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      CupertinoIcons.drop_fill,
+                      color: Colors.blue,
+                      size: MediaQuery.of(context).size.height / 4 * 0.1,
+                    ),
+                    Text(
+                      widget.humidityDegree.toString() + '%',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      CupertinoIcons.volume_down,
+                      size: MediaQuery.of(context).size.height / 4 * 0.1,
+                    ),
+                    Text(
+                      widget.soundDegree.toString() + 'dB',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    widget.loading == true
+                        ? Container(
+                            width: 20,
+                            height: 20,
+                            padding: EdgeInsets.all(3),
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : Icon(
+                            CupertinoIcons.check_mark_circled_solid,
+                            color: Colors.green,
+                            size: 20,
+                          )
+                  ]),
+                ]),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 10.0), // Add horizontal and vertical padding
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 4 * 1.6,
+                      width: 22,
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade200,
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'L',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          ]),
+                    ),
+                    Column(
+                      children: [
+                        _4seats(context, widget.seats, 6),
+                        _4seats(context, widget.seats, 4),
+                        _4seats(context, widget.seats, 2),
+                        _4seats(context, widget.seats, 0)
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 25,
+                        ),
+                        _centerseats(context, widget.seats, 16)
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        _2seats(context, widget.seats, 40),
+                        _2seats(context, widget.seats, 38),
+                        _2seats(context, widget.seats, 36),
+                        _2seats(context, widget.seats, 34),
+                        _2seats(context, widget.seats, 32),
+                        _2seats(context, widget.seats, 30)
+                      ],
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 4 * 1.6,
+                      width: 22,
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade200,
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'R',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _4seats(context, widget.seats, 6),
-                      _4seats(context, widget.seats, 4),
-                      _4seats(context, widget.seats, 2),
-                      _4seats(context, widget.seats, 0)
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: 25,
+                      Icon(
+                        CustomIcons.event_seat,
+                        color: Colors.blue,
+                        size: MediaQuery.of(context).size.height / 4 * 0.22,
                       ),
-                      _centerseats(context, widget.seats, 16)
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        '사용가능',
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height / 4 * 0.08,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        widget.remainSeats.toString() + '석',
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height / 4 * 0.1,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 4 * 0.08,
+                      )
                     ],
                   ),
+                  SizedBox(
+                    width: 90,
+                  ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _2seats(context, widget.seats, 40),
-                      _2seats(context, widget.seats, 38),
-                      _2seats(context, widget.seats, 36),
-                      _2seats(context, widget.seats, 34),
-                      _2seats(context, widget.seats, 32),
-                      _2seats(context, widget.seats, 30)
+                      Icon(
+                        CustomIcons.event_seat,
+                        color: Colors.grey.shade400,
+                        size: MediaQuery.of(context).size.height / 4 * 0.22,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        '사용불가',
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height / 4 * 0.08,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        (widget.totalSeats - widget.remainSeats).toString() +
+                            '석',
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height / 4 * 0.1,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 4 * 0.08,
+                      )
                     ],
-                  )
+                  ),
                 ],
               ),
-            ),
-            // Container(
-            //   width: MediaQuery.of(context).size.width,
-            //   decoration: BoxDecoration(
-            //     color: Colors.blue,
-            //   ),
-            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            //   child: Text(
-            //     '한가함',
-            //     style: TextStyle(
-            //       fontWeight: FontWeight.bold,
-            //       fontSize: 20,
-            //       color: Colors.white,
-            //     ),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Icon(
-                      CustomIcons.event_seat,
-                      color: Colors.blue,
-                      size: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '사용가능',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      widget.remainSeats.toString() + '석',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 42,
-                    )
-                  ],
-                ),
-                widget.loading == true
-                    ? Container(
-                        margin:
-                            EdgeInsets.only(left: 30, right: 30, bottom: 25),
-                        width: 30,
-                        height: 30,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 5,
-                        ),
-                      )
-                    : SizedBox(
-                        width: 82,
-                      ),
-                Column(
-                  children: [
-                    Icon(
-                      CustomIcons.event_seat,
-                      color: Colors.grey.shade400,
-                      size: 50,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '사용불가',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      (widget.totalSeats - widget.remainSeats).toString() + '석',
-                      style: TextStyle(
-                          fontSize: 32,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 42,
-                    )
-                  ],
-                ),
-              ],
-            )
-          ],
-        ));
+            ],
+          ),
+        ]));
   }
 }

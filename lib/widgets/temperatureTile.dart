@@ -8,7 +8,7 @@ class TemperatureTile extends StatefulWidget {
   final String low;
   final String high;
   final int degree;
-  final int color;
+  final Color color;
 
   TemperatureTile({
     required this.context,
@@ -44,6 +44,9 @@ class _TemperatureTileState extends State<TemperatureTile> {
     int comment = 0;
     String expandedTitle = '';
 
+    double fontSize = MediaQuery.of(context).size.height / 4 * 0.070;
+    double fontHeight = MediaQuery.of(context).size.height / 4 * 0.0065;
+
     // 온도에 따라 아이콘 변경
     if (widget.degree < 18) {
       comment = 4;
@@ -71,12 +74,12 @@ class _TemperatureTileState extends State<TemperatureTile> {
 
       containerColor = Colors.grey.shade200;
       iconColor = Colors.grey.shade300.withOpacity(1);
-      size = MediaQuery.of(widget.context).size.width / 4 * 1.2;
+      size = MediaQuery.of(widget.context).size.height / 4 * 0.5;
       title = expandedTitle;
     } else {
       containerColor = Colors.transparent;
-      iconColor = Color(widget.color);
-      size = MediaQuery.of(widget.context).size.width / 4 * 1.2;
+      iconColor = widget.color;
+      size = MediaQuery.of(widget.context).size.height / 4 * 0.57;
       title = widget.degree.toString() + '°C';
     }
 
@@ -94,8 +97,8 @@ class _TemperatureTileState extends State<TemperatureTile> {
               borderRadius: BorderRadius.circular(26.5),
               color: containerColor,
             ),
-            width: MediaQuery.of(context).size.width / 2 * 0.85,
-            height: MediaQuery.of(context).size.width / 2 * 0.85,
+            width: MediaQuery.of(context).size.height / 2 * 0.4,
+            height: MediaQuery.of(context).size.height / 2 * 0.4,
             child: Column(
               children: [
                 Align(
@@ -104,7 +107,7 @@ class _TemperatureTileState extends State<TemperatureTile> {
                     title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: MediaQuery.of(context).size.width / 4 * 0.18,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -124,9 +127,9 @@ class _TemperatureTileState extends State<TemperatureTile> {
                         Text(
                           comment0,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 0
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -136,9 +139,9 @@ class _TemperatureTileState extends State<TemperatureTile> {
                         Text(
                           comment1,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 1
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -148,9 +151,9 @@ class _TemperatureTileState extends State<TemperatureTile> {
                         Text(
                           comment2,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 2
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -160,9 +163,9 @@ class _TemperatureTileState extends State<TemperatureTile> {
                         Text(
                           comment3,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 3
                                 ? Colors.black
                                 : Colors.grey.shade700,
@@ -172,9 +175,9 @@ class _TemperatureTileState extends State<TemperatureTile> {
                         Text(
                           comment4,
                           style: TextStyle(
-                            height: 1.4,
+                            height: fontHeight,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: fontSize,
                             color: comment == 4
                                 ? Colors.black
                                 : Colors.grey.shade700,
