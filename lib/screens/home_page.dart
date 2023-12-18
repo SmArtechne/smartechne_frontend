@@ -45,8 +45,8 @@ class _HomeState extends State<Home> {
   ApiResponse? apiResponse;
 
   int totalSeat = 42;
-  int humidityDegree = 40;
-  int temperatureDegree = 20;
+  int humidityDegree = 25;
+  int temperatureDegree = 23;
   int soundDegree = 56;
 
   String dropdownValue = 'AI 공학관';
@@ -70,6 +70,11 @@ class _HomeState extends State<Home> {
       // API 호출 함수 호출
       setState(() {
         loading = true;
+        //  responseTime = DateTime.now().toString();
+        //   responseTime = responseTime.substring(10, 19);
+        //   seats[2] = 1;
+        //   seats[22] = 1;
+        //   seats[30] = 1;
       });
       fetchData();
     });
@@ -394,7 +399,7 @@ class _HomeState extends State<Home> {
                             ? LoadingIndicator()
                             : ComplexityTile(
                                 context: context,
-                                title: '남은 좌석',
+                                title: '사용 좌석',
                                 low: '낮음',
                                 high: '높음',
                                 seated: apiResponse!.remainSeat,
