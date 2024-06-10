@@ -44,10 +44,15 @@ class _HomeState extends State<Home> {
   bool detail = false;
   ApiResponse? apiResponse;
 
+  // 테스트용
+  bool datafetch = true;
+
+  // 테스트용
   int totalSeat = 42;
   int humidityDegree = 25;
   int temperatureDegree = 23;
   int soundDegree = 56;
+  int remainSeats = 39;
 
   String dropdownValue = 'AI 공학관';
   String responseTime = '';
@@ -65,16 +70,16 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-// 앱이 시작되면 30초마다 API를 호출하도록 타이머를 설정합니다.
+    // 앱이 시작되면 30초마다 API를 호출하도록 타이머를 설정합니다.
     _timer = Timer.periodic(Duration(seconds: 30), (timer) {
       // API 호출 함수 호출
       setState(() {
         loading = true;
-        //  responseTime = DateTime.now().toString();
-        //   responseTime = responseTime.substring(10, 19);
-        //   seats[2] = 1;
-        //   seats[22] = 1;
-        //   seats[30] = 1;
+        responseTime = DateTime.now().toString();
+        responseTime = responseTime.substring(10, 19);
+        seats[2] = 1;
+        seats[22] = 1;
+        seats[30] = 1;
       });
       fetchData();
     });
@@ -89,6 +94,7 @@ class _HomeState extends State<Home> {
   void dispose() {
     // 위젯이 dispose될 때 타이머를 해제합니다.
     _timer.cancel();
+    _commentTimer.cancel();
     super.dispose();
   }
 
@@ -103,6 +109,7 @@ class _HomeState extends State<Home> {
         var jsonData = json.decode(response.body);
         // ApiResponse 모델을 사용하여 JSON 데이터를 변환
         setState(() {
+          datafetch = true;
           loading = false;
           apiResponse = ApiResponse.fromJson(jsonData);
           // 현재 시간을 날짜 시간 형식으로 responseTime 변수에 저장
@@ -111,8 +118,7 @@ class _HomeState extends State<Home> {
 
           humidityDegree = apiResponse!.humidity;
           temperatureDegree = apiResponse!.temp;
-          print(responseTime + ' ' + apiResponse!.remainSeat.toString());
-          print(apiResponse!.result);
+          remainSeats = apiResponse!.remainSeat;
 
           seats = List<int>.generate(totalSeat, (index) => 0);
 
@@ -121,6 +127,7 @@ class _HomeState extends State<Home> {
           });
         });
       } else {
+        datafetch = false;
         throw Exception('Failed to load data');
       }
     } catch (e) {
@@ -131,7 +138,6 @@ class _HomeState extends State<Home> {
   List<String> spinnerItems = ['AI 공학관', '비전타워', '가천관', '글로벌센터', '교육대학원'];
 
   // 각 건물에 맞는 층 수를 가지는 map
-
   Map<String, List<String>> floorMap = {
     'AI 공학관': ['2층', '4층', '5층', '7층'],
     '비전타워': ['4층', '5층', '6층'],
@@ -151,24 +157,134 @@ class _HomeState extends State<Home> {
         Container(
           height: MediaQuery.of(context).size.height * 0.72,
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Aligns children to the left
             children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 4 * 0.03,
+              ),
               Container(
-                padding: EdgeInsets.symmetric(
+                width: double.infinity,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 16.0,
-                    vertical: MediaQuery.of(context).size.height /
-                        4 *
-                        0.04), // Add horizontal and vertical padding
-                child: Text(
-                  '건물',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    vertical: MediaQuery.of(context).size.height / 4 * 0.03,
+                  ), // Add horizontal and vertical padding
+                  child: Text(
+                    dropdownValue +
+                        (pressedAttentionIndex >= 0
+                            ? ' ${floorMap[dropdownValue]![pressedAttentionIndex]}'
+                            : ''), // pressedAttentionIndex가 -1이 아닌 경우에만 추가
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 4 * 0.09,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.left,
                 ),
+              ),
+              const Divider(
+                color: Color(0xFFC7C7C7), // Set the color of the divider
+                thickness: 1.5, // Set the thickness of the divider
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 4 * 0.02,
+              ), // 상하 여백 추가
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  loading == false
+                      ? Text(
+                          "최근 업데이트 " + responseTime,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height /
+                                4 *
+                                0.06, // 12% of screen width
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      : Text(
+                          loadingComment[commentIndex],
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height /
+                                4 *
+                                0.06, // 12%
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                  loading == true
+                      ? Container(
+                          width: 10,
+                          height: 10,
+                          margin: EdgeInsets.only(left: 8.0),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : SizedBox(),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    0, 16, 0, 0), // Add horizontal and vertical padding
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        datafetch == false
+                            ? LoadingIndicator()
+                            : TemperatureTile(
+                                context: context,
+                                title: '온도',
+                                low: '0도',
+                                high: '40도',
+                                degree: temperatureDegree,
+                                color: Colors.red),
+                        datafetch == false
+                            ? LoadingIndicator()
+                            : SoundTile(
+                                context: context,
+                                title: '소음',
+                                low: '낮음',
+                                high: '높음',
+                                degree: soundDegree,
+                                color: 0xFF5252C9),
+                      ],
+                    ),
+                    SizedBox(height: 16.0), // 상하 여백 추가
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        datafetch == false
+                            ? LoadingIndicator()
+                            : ComplexityTile(
+                                context: context,
+                                title: '사용 좌석',
+                                low: '낮음',
+                                high: '높음',
+                                seated: remainSeats, //apiResponse!.remainSeat,
+                                total: totalSeat,
+                                color: 0xFF3F8AE2),
+                        datafetch == false
+                            ? LoadingIndicator()
+                            : HumidityTile(
+                                context: context,
+                                title: '습도',
+                                low: '건조',
+                                high: '습함',
+                                degree: humidityDegree,
+                                color: 0xFF80E253),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 4 * 0.12,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -205,9 +321,8 @@ class _HomeState extends State<Home> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 0.0), // 텍스트 상하 여백 조절
+                        child: Align(
+                          alignment: Alignment.centerLeft, // 텍스트를 중앙에 배치
                           child: Text(
                             value,
                             style: TextStyle(
@@ -224,7 +339,7 @@ class _HomeState extends State<Home> {
               Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 0.0,
-                    vertical: MediaQuery.of(context).size.height / 4 * 0.04,
+                    vertical: MediaQuery.of(context).size.height / 4 * 0.08,
                   ), // Add horizontal and vertical padding
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height / 4 * 0.16,
@@ -293,153 +408,29 @@ class _HomeState extends State<Home> {
                           );
                         },
                       ))),
-              const Divider(
-                color: Color(0xFFC7C7C7), // Set the color of the divider
-                thickness: 1.5, // Set the thickness of the divider
-              ),
-              Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: MediaQuery.of(context).size.height / 4 * 0.02,
-                  ), // Add horizontal and vertical padding
-                  child: Text(
-                    dropdownValue +
-                        (pressedAttentionIndex >= 0
-                            ? ' ${floorMap[dropdownValue]![pressedAttentionIndex]}'
-                            : ''), // pressedAttentionIndex가 -1이 아닌 경우에만 추가
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              const Divider(
-                color: Color(0xFFC7C7C7), // Set the color of the divider
-                thickness: 1.5, // Set the thickness of the divider
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 4 * 0.02,
-              ), // 상하 여백 추가
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  loading == false
-                      ? Text(
-                          "최근 업데이트 " + responseTime,
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height /
-                                4 *
-                                0.06, // 12% of screen width
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      : Text(
-                          loadingComment[commentIndex],
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height /
-                                4 *
-                                0.06, // 12%
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                  loading == true
-                      ? Container(
-                          width: 10,
-                          height: 10,
-                          margin: EdgeInsets.only(left: 8.0),
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : SizedBox(),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    0, 16, 0, 0), // Add horizontal and vertical padding
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        apiResponse == null
-                            ? LoadingIndicator()
-                            : TemperatureTile(
-                                context: context,
-                                title: '온도',
-                                low: '0도',
-                                high: '40도',
-                                degree: temperatureDegree,
-                                color: Colors.red),
-                        apiResponse == null
-                            ? LoadingIndicator()
-                            : SoundTile(
-                                context: context,
-                                title: '소음',
-                                low: '낮음',
-                                high: '높음',
-                                degree: soundDegree,
-                                color: 0xFF5252C9),
-                      ],
-                    ),
-                    SizedBox(height: 16.0), // 상하 여백 추가
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        apiResponse == null
-                            ? LoadingIndicator()
-                            : ComplexityTile(
-                                context: context,
-                                title: '사용 좌석',
-                                low: '낮음',
-                                high: '높음',
-                                seated: apiResponse!.remainSeat,
-                                total: totalSeat,
-                                color: 0xFF3F8AE2),
-                        apiResponse == null
-                            ? LoadingIndicator()
-                            : HumidityTile(
-                                context: context,
-                                title: '습도',
-                                low: '건조',
-                                high: '습함',
-                                degree: humidityDegree,
-                                color: 0xFF80E253),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
-        detail == true
-            ? Detail(
-                context: context,
-                seats: seats,
-                loading: loading,
-                remainSeats: apiResponse?.remainSeat == null
-                    ? 42
-                    : apiResponse!.remainSeat,
-                totalSeats: totalSeat,
-                space: dropdownValue +
-                    (pressedAttentionIndex >= 0
-                        ? ' ${floorMap[dropdownValue]![pressedAttentionIndex]}'
-                        : ''),
-                soundDegree: soundDegree,
-                temperatureDegree: temperatureDegree,
-                humidityDegree: humidityDegree,
-              )
-            : SizedBox()
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: 300), // 애니메이션 전환 시간 설정
+          child: detail
+              ? Detail(
+                  //key: ValueKey('DetailPage'), // 유니크한 키 추가
+                  context: context,
+                  seats: seats,
+                  loading: loading,
+                  remainSeats: remainSeats,
+                  totalSeats: totalSeat,
+                  space: dropdownValue +
+                      (pressedAttentionIndex >= 0
+                          ? ' ${floorMap[dropdownValue]![pressedAttentionIndex]}'
+                          : ''),
+                  soundDegree: soundDegree,
+                  temperatureDegree: temperatureDegree,
+                  humidityDegree: humidityDegree,
+                )
+              : SizedBox(),
+        )
       ]),
       Align(
         alignment: Alignment.bottomCenter,
@@ -452,34 +443,41 @@ class _HomeState extends State<Home> {
   }
 
   void detailOn() {
-    detail = !detail;
+    setState(() {
+      detail = !detail;
+    });
   }
 
-  SizedBox BottomButton() {
-    return SizedBox(
-        width: MediaQuery.of(context).size.width * 0.7,
-        child: ElevatedButton(
-          onPressed: () => detailOn(),
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(
-                EdgeInsets.symmetric(vertical: 15.0, horizontal: 0.0)),
-            backgroundColor: MaterialStateProperty.all<Color>(
-                Color(0xB0FF9900)), // 배경색을 노란색으로 설정
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0), // 테두리를 둥근 테두리로 설정
+  Padding BottomButton() {
+    return Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: 0.0,
+            vertical: 16), // Add horizontal and vertical padding
+        child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => detailOn(),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    EdgeInsets.symmetric(vertical: 15.0, horizontal: 0.0)),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Color(0xB0FF9900)), // 배경색을 노란색으로 설정
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(12.0), // 테두리를 둥근 테두리로 설정
+                  ),
+                ),
               ),
-            ),
-          ),
-          child: Text(
-            detail == false ? '실시간 자리현황' : '홈으로',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ));
+              child: Text(
+                detail == false ? '실시간 자리현황' : '홈으로',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.height / 4 * 0.08,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )));
   }
 }

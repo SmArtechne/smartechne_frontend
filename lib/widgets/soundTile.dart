@@ -105,8 +105,8 @@ class _SoundTileState extends State<SoundTile> {
               borderRadius: BorderRadius.circular(26.5),
               color: containerColor,
             ),
-            width: MediaQuery.of(context).size.height / 2 * 0.4,
-            height: MediaQuery.of(context).size.height / 2 * 0.4,
+            width: MediaQuery.of(context).size.height / 2 * 0.41,
+            height: MediaQuery.of(context).size.height / 2 * 0.41,
             child: Column(
               children: [
                 Align(

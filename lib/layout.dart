@@ -8,7 +8,34 @@ class Layout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SmArtehcne'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.school,
+              color: Colors.white,
+            ),
+            SizedBox(width: 8),
+            Text(
+              'SmArtechne',
+              style: TextStyle(
+                fontFamily: 'Roboto', // 원하는 글꼴 설정
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [
+                  Shadow(
+                    blurRadius: 10.0,
+                    color: Colors.black,
+                    offset: Offset(2.0, 2.0),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        centerTitle: true, // 제목을 중앙에 배치
+        backgroundColor: Colors.blueAccent, // AppBar 배경 색상 변경
       ),
       body: SingleChildScrollView(
           child: Container(
