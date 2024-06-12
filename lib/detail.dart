@@ -8,7 +8,7 @@ class DetailLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SmArtehcne'),
+        title: Text('SmArtehcnㄹe'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

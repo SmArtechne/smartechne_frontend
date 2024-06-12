@@ -31,7 +31,7 @@ class _ComplexityTileState extends State<ComplexityTile> {
   Color pbColor = Colors.black; // 아이콘 색을 저장할 변수
   Color bgColor = Colors.grey.shade200;
   double size = 0;
-  String title = '남은 좌석';
+  String title = '사용 좌석';
   double percent = 0;
 
   @override
@@ -39,9 +39,11 @@ class _ComplexityTileState extends State<ComplexityTile> {
     IconData iconData = CupertinoIcons.speaker;
     String categoryDegree = "쾌적";
     String expandedTitle = '';
-    String degree = widget.seated.toString() + "/" + widget.total.toString();
+    String degree = (widget.total - widget.seated).toString() +
+        "/" +
+        widget.total.toString();
 
-    percent = widget.seated / widget.total * 100;
+    percent = (widget.total - widget.seated) / widget.total * 100;
 
     String comment0 = '80% 이상 : 매우 한가함';
     String comment1 = '60~80% : 한가함';
@@ -53,49 +55,49 @@ class _ComplexityTileState extends State<ComplexityTile> {
     double fontSize = MediaQuery.of(context).size.height / 4 * 0.070;
     double fontHeight = MediaQuery.of(context).size.height / 4 * 0.0065;
 
-    // if (percent < 20) {
-    //   pbColor = Colors.blue;
-    //   categoryDegree = "매우 한가함";
-    //   comment = 4;
-    // } else if (percent >= 20 && percent < 40) {
-    //   pbColor = Colors.green;
-    //   categoryDegree = "한가함";
-    //   comment = 3;
-    // } else if (percent >= 40 && percent < 60) {
-    //   pbColor = Colors.yellow;
-    //   categoryDegree = "적당함";
-    //   comment = 2;
-    // } else if (percent >= 60 && percent < 80) {
-    //   pbColor = Colors.orange;
-    //   categoryDegree = "복잡함";
-    //   comment = 1;
-    // } else if (percent >= 80 && percent <= 100) {
-    //   pbColor = Colors.red;
-    //   categoryDegree = "매우 복잡함";
-    //   comment = 0;
-    // }
-
     if (percent < 20) {
-      pbColor = Colors.red;
-      categoryDegree = "매우 복잡함";
+      pbColor = Colors.blue;
+      categoryDegree = "매우 한가함";
       comment = 4;
     } else if (percent >= 20 && percent < 40) {
-      pbColor = Colors.orange;
-      categoryDegree = "복잡함";
+      pbColor = Colors.green;
+      categoryDegree = "한가함";
       comment = 3;
     } else if (percent >= 40 && percent < 60) {
-      pbColor = Colors.yellow.shade600;
+      pbColor = Colors.yellow;
       categoryDegree = "적당함";
       comment = 2;
     } else if (percent >= 60 && percent < 80) {
-      pbColor = Colors.green;
-      categoryDegree = "한가함";
+      pbColor = Colors.orange;
+      categoryDegree = "복잡함";
       comment = 1;
     } else if (percent >= 80 && percent <= 100) {
-      pbColor = Colors.blue;
-      categoryDegree = "매우 한가함";
+      pbColor = Colors.red;
+      categoryDegree = "매우 복잡함";
       comment = 0;
     }
+
+    // if (percent < 20) {
+    //   pbColor = Colors.red;
+    //   categoryDegree = "매우 복잡함";
+    //   comment = 4;
+    // } else if (percent >= 20 && percent < 40) {
+    //   pbColor = Colors.orange;
+    //   categoryDegree = "복잡함";
+    //   comment = 3;
+    // } else if (percent >= 40 && percent < 60) {
+    //   pbColor = Colors.yellow.shade600;
+    //   categoryDegree = "적당함";
+    //   comment = 2;
+    // } else if (percent >= 60 && percent < 80) {
+    //   pbColor = Colors.green;
+    //   categoryDegree = "한가함";
+    //   comment = 1;
+    // } else if (percent >= 80 && percent <= 100) {
+    //   pbColor = Colors.blue;
+    //   categoryDegree = "매우 한가함";
+    //   comment = 0;
+    // }
 
     if (isExpanded) {
       // isExpanded가 true일 때만 색상을 color 변수의 투명도80으로 하고 싶어
@@ -111,7 +113,9 @@ class _ComplexityTileState extends State<ComplexityTile> {
       bgColor = Colors.grey.shade200;
       size = MediaQuery.of(widget.context).size.width / 4 * 1.2;
       title = widget.title;
-      degree = widget.seated.toString() + "/" + widget.total.toString();
+      degree = (widget.total - widget.seated).toString() +
+          "/" +
+          widget.total.toString();
     }
 
     return Column(
